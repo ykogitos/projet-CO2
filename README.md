@@ -19,7 +19,7 @@ Estimation des émissions de CO2 des véhicules en France pour l'année 2022
 `pip install -r requirements.txt`    
 
 ## Streamlit  
-`cd  VOTRE_DOSSIER/streamlit`
+`cd  VOTRE_DOSSIER/streamlit`     
 `streamlit run --client.showSidebarNavigation=False app.py`
 
 # Organisation du projet
