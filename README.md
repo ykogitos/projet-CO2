@@ -21,7 +21,7 @@ Ajouter l'environnement avec **Conda**
 
 ## Streamlit
 
-`cd ./src/streamlit`   
+`cd ./streamlit`   
 `streamlit run --client.showSidebarNavigation=False app.py`
 
 # Organisation du projet
