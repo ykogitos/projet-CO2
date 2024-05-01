@@ -1,0 +1,15 @@
+<class 'pandas.core.frame.DataFrame'>
+Index: 1428317 entries, 77798939 to 78020976
+Data columns (total 8 columns):
+ #   Column        Non-Null Count    Dtype 
+---  ------        --------------    ----- 
+ 0   Cr            1428317 non-null  object
+ 1   Mt            1428317 non-null  int64 
+ 2   Ewltp (g/km)  1428317 non-null  int64 
+ 3   W (mm)        1428317 non-null  int64 
+ 4   At1 (mm)      1428317 non-null  int64 
+ 5   Ft            1428317 non-null  object
+ 6   Fm            1428317 non-null  object
+ 7   ep (KW)       1428317 non-null  int64 
+dtypes: int64(5), object(3)
+memory usage: 98.1+ MB

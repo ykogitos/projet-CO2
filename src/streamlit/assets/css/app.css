@@ -1,0 +1,42 @@
+table {
+    width: 100%;
+}
+
+table td:first-child {
+    width: 8em;
+}
+
+table td:last-child {
+    width: 14em;
+}
+
+#GridSearch table td:last-child {
+    width: 34em;
+}
+
+section[data-testid="stSidebar"] ul li {
+    list-style: none;
+}
+
+#DLSymmary table td {
+    width: 33%;
+} 
+
+
+
+ul li a:link,
+ul li a:visited {
+    width: 100%;
+    color: #31333f!important;
+    text-decoration: none;
+}
+
+ul li a:hover,
+ul li a:active {
+    width: 100%;
+    text-decoration: underline;
+}
+
+div[data-testid="stForm"] {
+    border: none;
+}
