@@ -1,6 +1,14 @@
 Projet: Émissions de CO2
 ==============================
 
+## Résumé  
+Estimation des émissions de CO2 des véhicules en France pour l'anné 2022  
++ Extraction des données
++ Pré-processing et Feature engineering
++ Modèles de regression linéaire
+    + Machine Learning avec Scikit-learn
+    + Deep Learning avec Keras
+
 ## Créer un répertoire et y cloner le repo
 Dans le terminal :     
 Créer un dossier      
