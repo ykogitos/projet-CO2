@@ -1,9 +1,0 @@
-#,Column,Non-Null,Count,Dtype
-0,Cr,non-null,82284,object
-1,Mt,non-null,82284,int64
-2,Ewltp (g/km),non-null,82284,int64
-3,W (mm),non-null,82284,int64
-4,At1 (mm),non-null,82284,int64
-5,Ft,non-null,82284,object
-6,Fm,non-null,82284,object
-7,ep (KW),non-null,82284,int64

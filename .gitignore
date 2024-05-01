@@ -163,4 +163,4 @@ cython_debug/
 .vscode/
 
 # Data folder
-data/
+data/raw/data_2022.csv

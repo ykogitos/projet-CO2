@@ -15,13 +15,10 @@ Estimation des émissions de CO2 des véhicules en France pour l'année 2022
 `cd  VOTRE_DOSSIER`              
 `git clone https://github.com/ykogitos/projet-CO2.git .`      
 
-Ajouter l'environnement avec **Conda**     
-`conda env create -f environment.yml`    
+## Dépendances     
+`pip install -r requirements.txt`    
 
-
-## Streamlit
-
-`cd ./streamlit`   
+## Streamlit  
 `streamlit run --client.showSidebarNavigation=False app.py`
 
 # Organisation du projet
@@ -29,8 +26,19 @@ Ajouter l'environnement avec **Conda**
 --------
     │
     ├── LICENSE
-    │
-    ├── README.md          
+    ├── README.md  
+    ├── app.py 
+    ├── favicon.png  
+    │ 
+    ├── data 
+    |   ├── processed
+    |   |   ├── data_2022_all_features_cleaned_scaled.csv          
+    |   |   ├── data_2022_cleaned_scaled.csv  
+    |   │   └── data_2022_cleaned.csv             
+    |   │
+    |   └── raw
+    |       ├── data_2022_light.csv          
+    |       └── data_2022.csv    <- Not added [Link](https://co2cars.apps.eea.europa.eu/?source=%7B%22track_total_hits%22%3Atrue%2C%22query%22%3A%7B%22bool%22%3A%7B%22must%22%3A%7B%22bool%22%3A%7B%22must%22%3A%5B%7B%22constant_score%22%3A%7B%22filter%22%3A%7B%22bool%22%3A%7B%22must%22%3A%5B%7B%22bool%22%3A%7B%22should%22%3A%5B%7B%22term%22%3A%7B%22year%22%3A2022%7D%7D%5D%7D%7D%2C%7B%22bool%22%3A%7B%22should%22%3A%5B%7B%22term%22%3A%7B%22scStatus%22%3A%22Final%22%7D%7D%5D%7D%7D%5D%7D%7D%7D%7D%5D%7D%7D%2C%22filter%22%3A%7B%22bool%22%3A%7B%22should%22%3A%5B%7B%22term%22%3A%7B%22MS%22%3A%22FR%22%7D%7D%5D%7D%7D%7D%7D%2C%22display_type%22%3A%22tabular%22%7D) 
     │
     ├── notebooks 
     │   ├── 01-exploration_data.ipynb        
@@ -45,9 +53,7 @@ Ajouter l'environnement avec **Conda**
     │
     ├── requirements.txt
     │
-    └── streamlit
-        ├── app.py 
-        ├── favicon.png    
+    └── streamlit    
         │   
         ├── assets
         │   │ 
