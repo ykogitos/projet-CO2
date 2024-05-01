@@ -27,7 +27,6 @@ Ajouter l'environnement avec **Conda**
 # Organisation du projet
 
 --------
-VOTRE_DOSSIER
     │
     ├── LICENSE
     │
