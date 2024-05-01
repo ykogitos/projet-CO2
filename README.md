@@ -45,10 +45,10 @@ Ajouter l'environnement avec **Conda**
     │
     ├── requirements.txt
     │
-    └── streamlit
-        ├── app.py 
-        ├── favicon.png    
-        │    
+    └── streamlit
+        ├── app.py 
+        ├── favicon.png    
+        │   
         ├── assets
         │   │ 
         │   ├── __init__.py
@@ -114,7 +114,7 @@ Ajouter l'environnement avec **Conda**
         │       ├── LinearRegression-V2.joblib
         │       └── scaler_data_2022.pkl
         │    
-        └── pages
+        └── pages
             ├── __init__.py
             ├── dataprocessing.py
             ├── exploration.py
