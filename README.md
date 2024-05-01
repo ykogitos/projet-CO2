@@ -2,38 +2,33 @@ Projet: Émissions de CO2
 ==============================
 
 ## Résumé  
-Estimation des émissions de CO2 des véhicules en France pour l'anné 2022  
+Estimation des émissions de CO2 des véhicules en France pour l'année 2022  
 + Extraction des données
 + Pré-processing et Feature engineering
 + Modèles de regression linéaire
     + Machine Learning avec Scikit-learn
     + Deep Learning avec Keras
 
-## Créer un répertoire et y cloner le repo
-Dans le terminal :     
-Créer un dossier      
-`mkdir NOM_DE_VOTRE_REPO`          
-`cd  NOM_DE_VOTRE_REPO`         
+## Installation
+     
+`mkdir VOTRE_DOSSIER`          
+`cd  VOTRE_DOSSIER`              
+`git clone https://github.com/ykogitos/projet-CO2.git .`      
 
-
-Cloner le repo     
-`git clone https://github.com/DataScientest-Studio/feb24_bds_co2.git .`      
-
-
-## Installation de l'environnement avec Conda
-Dans le terminal :    
+Ajouter l'environnement avec **Conda**     
 `conda env create -f environment.yml`    
 
-## Lancer Streamlit
-Dans le terminal :     
-`cd ./src/streamlit`
 
-Exécuter la commande :    
+## Streamlit
+
+`cd ./src/streamlit`   
 `streamlit run --client.showSidebarNavigation=False app.py`
 
 # Organisation du projet
 
 --------
+VOTRE_DOSSIER
+    │
     ├── LICENSE
     │
     ├── README.md          
