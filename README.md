@@ -9,6 +9,8 @@ Estimation des émissions de CO2 des véhicules en France pour l'année 2022
     + Machine Learning avec Scikit-learn
     + Deep Learning avec Keras
 
+[Streamlit](https://ykogitos-projet-co2-app-rbd3uy.streamlit.app/)
+
 ## Installation
      
 `mkdir VOTRE_DOSSIER`          
