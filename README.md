@@ -27,9 +27,7 @@ Estimation des émissions de CO2 des véhicules en France pour l'année 2022
 --------
     │
     ├── LICENSE
-    ├── README.md  
-    ├── app.py 
-    ├── favicon.png  
+    ├── README.md   
     │ 
     ├── data 
     |   ├── processed
@@ -54,7 +52,9 @@ Estimation des émissions de CO2 des véhicules en France pour l'année 2022
     │
     ├── requirements.txt
     │
-    └── streamlit    
+    └── streamlit 
+        ├── app.py 
+        ├── favicon.png    
         │   
         ├── assets
         │   │ 
