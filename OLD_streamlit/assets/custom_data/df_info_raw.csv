@@ -1,0 +1,38 @@
+#,Column,Non-Null,Count,Dtype
+0,Country,non-null,1638878,object
+1,VFN,non-null,1638878,object
+2,Mp,non-null,1570268,object
+3,Mh,non-null,1638878,object
+4,Man,non-null,1638878,object
+5,MMS,non-null,0,float64
+6,Tan,non-null,1638878,object
+7,T,non-null,1638878,object
+8,Va,non-null,1638878,object
+9,Ve,non-null,1638878,object
+10,Mk,non-null,1638878,object
+11,Cn,non-null,1638878,object
+12,Ct,non-null,1638878,object
+13,Cr,non-null,1638878,object
+14,r,non-null,1638878,int64
+15,m (kg),non-null,1638878,int64
+16,Mt,non-null,1638878,int64
+17,Enedc (g/km),non-null,297985,float64
+18,Ewltp (g/km),non-null,1638878,int64
+19,W (mm),non-null,1638878,int64
+20,At1 (mm),non-null,1638878,int64
+21,At2 (mm),non-null,1638878,int64
+22,Ft,non-null,1638878,object
+23,Fm,non-null,1638878,object
+24,ec (cm3),non-null,1428317,float64
+25,ep (KW),non-null,1638878,int64
+26,z (Wh/km),non-null,339030,float64
+27,IT,non-null,1206951,object
+28,Ernedc (g/km),non-null,0,float64
+29,Erwltp (g/km),non-null,1206947,float64
+30,De,non-null,0,float64
+31,Vf,non-null,0,float64
+32,Status,non-null,1638878,object
+33,year,non-null,1638878,int64
+34,Date of registration,non-null,1638878,object
+35,Fuel consumption,non-null,1428317,float64
+36,Electric range (km),non-null,339030,float64
