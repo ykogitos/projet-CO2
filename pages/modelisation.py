@@ -283,7 +283,7 @@ with st.form("ml_form"):
             color_positive = (1, 13/255, 87/255, 1)
             color_negative = (30/255, 136/255, 229/255, 1)
             white = (1, 1, 1, 0)
-            threshold = len(df_shap["Coefs"]) - 3
+
             for i, value in enumerate(df_shap["Coefs"]):
                 
                 if i > 1:
