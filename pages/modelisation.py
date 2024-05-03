@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import os
 from assets.menu import menu
 from assets.explore_ml import load_ml_model, load_data, load_pickle, load_keras_model, Simulator
 import matplotlib.pyplot as plt
-import seaborn as sns
-import io
+from matplotlib.transforms import Affine2D
+import mpl_toolkits.axisartist.floating_axes as floating_axes
+import shap
 
 st.set_page_config(
         page_title="Emission de CO2",
@@ -132,9 +132,23 @@ Optimizer params: :green[1,911,556] (7.29 MB)
 
 st.header("Entrainement", "DNNTrain")
 st.write("""
-Le modèle est entrainé avec **200** epochs par batch de **30** avec les même 
-jeu de données que pour le modèle de régression linéraire         
+    Le modèle est entrainé avec **200** epochs par batch de **30** avec le même jeu de données utilisé lors du machine learning 
+    avec deux callbacks pour arrêter un epoch si nécessaire :  
+    + **early_stopping** qui consiste à stopper l'étape d'entraînement dès que le loss de validation atteint un plateau ou commence à augmenter  
+    + **lr_plateau**  qui consiste à modifier le learning rate quand il n'y a plus d'amélioration 
+         """)
+
+st.text("""
+    history = model.fit(
+        X_train, 
+        y_train, 
+        epochs=200, 
+        batch_size=30, 
+        validation_split=0.2, 
+        callbacks=[early_stopping, lr_plateau])    
         """)
+
+
 # st.image("./assets/images/history_loss.png")
 
 st.write("""
@@ -196,7 +210,9 @@ with st.form("ml_form"):
         if Ft_NG:
             cbs.append("NG")
 
-        simulation = simulator.make_simulation(slider_val, has_filter, cbs)
+
+        simulation, df_sample = simulator.make_simulation(slider_val, has_filter, cbs)
+
         st.dataframe(simulation)
         makes = simulation["Modèle"]
         metrics = {
@@ -205,18 +221,28 @@ with st.form("ml_form"):
             "LR": simulation["LR"],
         }
         x = np.arange(len(makes))
-        width = 0.2
+        bar_colors = {
+            "DNN": (30/255, 136/255, 229/255, 1),
+            "EWLTP": (1, 13/255, 87/255, 1),
+            "LR": (30/255, 136/255, 229/255, 0.5)
+        }
+        width = 0.15
         multiplier = 0
         fig, ax = plt.subplots(layout="constrained")
         ymin = []
         ymax = []
         for attribute, measurement in metrics.items():
             offset = width * multiplier
-            rects = ax.bar(x + offset, measurement, width, label=attribute)
+            rects = ax.bar(
+                x + offset, 
+                measurement, 
+                width, 
+                label=attribute, 
+                color=bar_colors[attribute])
             ymin.append(min(measurement))
             ymax.append(max(measurement))
             ax.bar_label(rects, padding=3, rotation=90, fontsize=8)
-            multiplier += 1
+            multiplier += 1.04
             
         plt.xticks(rotation=90, fontsize=8)
         plt.yticks(fontsize=8)
@@ -224,7 +250,63 @@ with st.form("ml_form"):
         ax.legend(loc='upper right', ncols=3, fontsize=8)
         ax.set_xticks(x + width, makes)
         st.pyplot(fig)
+        
+        # Explain
+        st.write("## Explication des prédictions pour le DNN ")
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        df_sample_no_Ewltp = df_sample.drop(["Ewltp"], axis=1)
+        for n in range(slider_val):
+            explainer, shap_values, df_shap = simulator.explain_prediction(df_sample.iloc[[n]])
+            st.write("#### "+ simulation["Groupe"].iloc[n] + " - " + simulation["Modèle"].iloc[n])
+            dnn = str(round(simulation["DNN"].iloc[n], 2))
+            ewltp = str(round(simulation["EWLTP"].iloc[n], 2))
+            resume = "Émission de CO2 -   "
+            resume += " Prédiction : <b>" + dnn + "</b> "
+            resume += "| Réelle : <b>" + ewltp + "</b>"
+            resume += "<br>Énergie (Ft): <b>" + simulation["Énergie"].iloc[n] + "</b>"
+            resume += " | " + "Cylindrée (ec) : <b>" + str(simulation["Cylindrée"].iloc[n]) + "</b>"
+            resume += " | " + "Puissance (ep) : <b>" + str(simulation["Puissance"].iloc[n]) + "</b>"
+            resume += " | " + "Masse (Mt) : <b>" + str(simulation["Masse WLTP"].iloc[n]) + "</b>"      
+            st.write('<span style="font-size: 0.8rem;">' + resume + '</span>', unsafe_allow_html=True)
+            plt.clf()
+            st.pyplot(shap.force_plot(
+                explainer.expected_value, 
+                shap_values, 
+                df_sample_no_Ewltp.iloc[n, :],
+                matplotlib=True))
+            plt.show()
+            plt.close()
 
+            fig, ax = plt.subplots(layout="constrained", figsize=(10, 2.5))
+
+            colorsValue = []
+            color_positive = (1, 13/255, 87/255, 1)
+            color_negative = (30/255, 136/255, 229/255, 1)
+            white = (1, 1, 1, 0)
+            threshold = len(df_shap["Coefs"]) - 3
+            for i, value in enumerate(df_shap["Coefs"]):
+                
+                if i > 1:
+                    if value < 0:
+                        colorsValue.append(color_negative)
+                    else:
+                        colorsValue.append(color_positive)
+                else:
+                    colorsValue.append(white)
+       
+            p = ax.barh(
+                data=df_shap, 
+                width="Coefs", 
+                y="Features", 
+                height=0.2,
+                color=colorsValue)
+            
+            
+            ax.bar_label(p, labels=df_shap["Features"], padding=10, fontsize=8, rotation=0)
+            ax.set_axis_off()
+            plt.title("Part des features")
+            st.pyplot(fig)
+            
 i=0
 while i < 20:
     st.write("  \n")

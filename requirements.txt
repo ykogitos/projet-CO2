@@ -8,3 +8,4 @@ seaborn==0.13.2
 streamlit==1.33.0
 streamlit_keyup==0.2.4
 tensorflow==2.16.1
+shap==0.42.1

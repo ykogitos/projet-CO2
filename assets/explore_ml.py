@@ -4,6 +4,9 @@ import pickle
 from joblib import dump, load
 from keras.models import load_model
 import keras
+import shap
+
+shap.initjs()
 
 pd.options.mode.copy_on_write = True
 keras.backend.clear_session()
@@ -38,10 +41,41 @@ def create_df_raw(df):
 class Simulator():
     def __init__(self, df, df_raw_light, model, keras_model, scaler):
         self.df = df
+        self.df_no_ewltp = df.drop(["Ewltp"], axis=1)
         self.df_raw_light = df_raw_light
         self.model = model
         self.scaler = scaler
         self.keras_model = keras_model
+        
+    def shap_f(self, X):
+        return self.keras_model.predict(X).flatten()
+        
+    def explain_prediction(self, df_sample):
+        X = df_sample.copy()
+        X = X.drop(["Ewltp"], axis=1)
+        explainer = shap.KernelExplainer(self.shap_f, self.df_no_ewltp.iloc[:40, :])
+        shap_values = explainer.shap_values(X, nsamples=500)
+        
+        df_shap = pd.DataFrame({
+            "Features": X.columns.ravel(),
+            "Coefs": shap_values.ravel()
+        })
+        
+        v_max = df_shap["Coefs"].max()
+        v_min = df_shap["Coefs"].min()
+        
+        df_shap = df_shap.set_index("Features")
+        df_shap = df_shap[df_shap.Coefs != 0.0]
+        df_shap = df_shap.reset_index()
+        df_shap["Abs"] = abs(df_shap["Coefs"])
+        df_shap = df_shap.sort_values(by="Abs", ascending=True)
+        
+        row = {
+            "Features": ["", ""],
+            "Coefs": [max(v_max, abs(v_min)), max(v_max, abs(v_min)) * (-1)]
+        }
+        df_shap = pd.concat([pd.DataFrame(row), df_shap])
+        return explainer, shap_values, df_shap
         
     def get_rescaled(self, df, model_name="", y=False):
         if y:
@@ -75,12 +109,12 @@ class Simulator():
         
         df_raw_light = df.iloc[get_random_rows(df, num)]
         df_sample = self.df.loc[df_raw_light.index]
-        
-        df_sample_rescaled = self.get_rescaled(df_sample.copy())
-        y_ml_pred = self.get_rescaled(df_sample.copy(), model_name="lr", y=True)
-        y_dl_pred = self.get_rescaled(df_sample.copy(), model_name="dnn", y=True)
+        df_sample_copy = df_sample.copy()
+        df_sample_rescaled = self.get_rescaled(df_sample_copy)
+        y_ml_pred = self.get_rescaled(df_sample_copy, model_name="lr", y=True)
+        y_dl_pred = self.get_rescaled(df_sample_copy, model_name="dnn", y=True)
  
-        out = pd.DataFrame({
+        simulation = pd.DataFrame({
             "DNN": y_dl_pred.round(2),
             "EWLTP": df_sample_rescaled["Ewltp"],
             "LR": y_ml_pred.round(2),
@@ -93,7 +127,7 @@ class Simulator():
             "Masse WLTP": df_raw_light["Mt"],
         })
         
-        return out
+        return simulation, df_sample_copy
      
 if __name__ == "__main__":
     pass
